@@ -1,0 +1,1480 @@
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================================
+   SHELL / LAYOUT
+   ============================================================ */
+.rc-shell {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(
+        135deg,
+        rgba(102, 126, 234, 0.05) 0%,
+        rgba(118, 75, 162, 0.05) 50%,
+        rgba(79, 172, 254, 0.05) 100%
+    );
+    color: #111827;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.rc-shell::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 20% 50%,
+            rgba(102, 126, 234, 0.08) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(118, 75, 162, 0.08) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 40% 20%,
+            rgba(79, 172, 254, 0.08) 0%,
+            transparent 50%
+        );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.rc-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+.rc-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.85rem;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e5e7eb;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    gap: 0.5rem;
+}
+
+.rc-topbar-title {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.rc-app-name {
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rc-app-subtitle {
+    font-size: 0.68rem;
+    opacity: 0.75;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rc-topbar-actions {
+    display: flex;
+    gap: 0.35rem;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   ICON BUTTONS
+   ============================================================ */
+.rc-icon-button {
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: #e5e7eb;
+    padding: 0.4rem 0.6rem;
+    min-width: 36px;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+    font-size: 1rem;
+}
+
+.rc-icon-button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition:
+        width 0.5s,
+        height 0.5s;
+}
+
+.rc-icon-button:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+.rc-icon-button:hover {
+    background: rgba(102, 126, 234, 0.35);
+    transform: translateY(-1px) scale(1.05);
+    box-shadow: 0 6px 18px rgba(102, 126, 234, 0.35);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.rc-icon-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.rc-content {
+    flex: 1;
+    padding: 1rem 0.875rem 0.75rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: rc-fade-in-up 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+    /* Extra bottom padding so content is not hidden by bottom nav on mobile */
+    padding-bottom: calc(64px + 0.75rem);
+}
+
+.rc-page-container {
+    animation: rc-fade-in-up 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.rc-footer {
+    padding: 0.75rem 1rem 0.85rem;
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #9ca3af;
+    font-size: 0.72rem;
+    text-align: center;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+    /* hide on small screens to save space – bottom nav replaces it visually */
+    display: none;
+}
+
+.rc-footer p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.rc-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(280px, 85vw);
+    background: rgba(10, 18, 36, 0.97);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e5e7eb;
+    transform: translateX(-100%);
+    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: 8px 0 40px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    /* Don't show sidebar below topbar on mobile – full height */
+    top: 0;
+}
+
+.rc-sidebar--open {
+    transform: translateX(0);
+}
+
+.rc-sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-top: env(safe-area-inset-top, 0);
+}
+
+.rc-avatar {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 30%, #60a5fa, #1d4ed8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #eff6ff;
+}
+
+.rc-sidebar-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rc-sidebar-email {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rc-sidebar-close {
+    margin-left: auto;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    flex-shrink: 0;
+}
+
+.rc-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 1rem;
+}
+
+.rc-sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 0.85rem;
+    border-radius: 0.6rem;
+    font-size: 0.875rem;
+    color: #d1d5db;
+    border: 1px solid transparent;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    min-height: 44px;
+}
+
+.rc-sidebar-link::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.25), transparent);
+    transition: width 0.3s ease;
+}
+
+.rc-sidebar-link:hover {
+    background: rgba(55, 65, 81, 0.6);
+    color: #f3f4f6;
+}
+
+.rc-sidebar-link:hover::before {
+    width: 100%;
+}
+
+.rc-sidebar-link--active {
+    background: linear-gradient(
+        90deg,
+        rgba(102, 126, 234, 0.3),
+        rgba(118, 75, 162, 0.25)
+    );
+    color: #e0e7ff;
+    border-left: 3px solid #667eea;
+    padding-left: calc(0.85rem - 3px);
+}
+
+.rc-sidebar-logout {
+    margin-top: auto;
+    padding: 0.65rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    background: rgba(153, 27, 27, 0.18);
+    color: #fca5a5;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rc-sidebar-logout:hover {
+    background: rgba(220, 38, 38, 0.45);
+}
+
+/* ============================================================
+   BOTTOM NAVIGATION (mobile-only)
+   ============================================================ */
+.rc-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(10, 18, 36, 0.97);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: stretch;
+    z-index: 25;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.35);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.rc-bottom-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    color: #6b7280;
+    text-decoration: none;
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+    border-radius: 0;
+    padding: 0.35rem 0.25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.rc-bottom-nav-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 0 0 4px 4px;
+    transition: width 0.3s ease;
+}
+
+.rc-bottom-nav-item--active {
+    color: #818cf8;
+}
+
+.rc-bottom-nav-item--active::before {
+    width: 60%;
+}
+
+.rc-bottom-nav-item--admin {
+    color: #f59e0b;
+}
+
+.rc-bottom-nav-item--admin.rc-bottom-nav-item--active {
+    color: #fbbf24;
+}
+
+.rc-bottom-nav-item--admin.rc-bottom-nav-item--active::before {
+    background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.rc-bottom-nav-icon {
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+}
+
+.rc-bottom-nav-item--active .rc-bottom-nav-icon {
+    transform: translateY(-1px) scale(1.1);
+}
+
+.rc-bottom-nav-label {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 56px;
+    text-align: center;
+}
+
+/* ============================================================
+   CARD GRID
+   ============================================================ */
+.rc-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.rc-card {
+    border-radius: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: left;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    animation: rc-card-enter 0.55s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.rc-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+.rc-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+.rc-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+.rc-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+.rc-card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+.rc-card:nth-child(6) {
+    animation-delay: 0.3s;
+}
+.rc-card:nth-child(7) {
+    animation-delay: 0.35s;
+}
+.rc-card:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+@keyframes rc-card-enter {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.93);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Shimmer on hover */
+.rc-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.45),
+        transparent
+    );
+    transition: left 0.55s ease;
+    z-index: 1;
+}
+
+.rc-card:hover::before {
+    left: 100%;
+}
+
+.rc-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(102, 126, 234, 0.08) 0%,
+        rgba(118, 75, 162, 0.08) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.rc-card:hover {
+    transform: translateY(-5px) scale(1.015);
+    box-shadow: 0 16px 48px rgba(102, 126, 234, 0.22);
+    border-color: rgba(102, 126, 234, 0.28);
+}
+
+.rc-card:hover::after {
+    opacity: 1;
+}
+
+.rc-card:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+.rc-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* ============================================================
+   CARD WITH ICON
+   ============================================================ */
+.rc-card-with-icon {
+    position: relative;
+    overflow: hidden;
+}
+
+.rc-card-icon-wrapper {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(
+        135deg,
+        var(--card-color, #667eea) 0%,
+        var(--card-color, #764ba2) 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.7rem;
+    color: #fff;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.rc-card-icon-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition:
+        width 0.5s,
+        height 0.5s;
+}
+
+.rc-card:hover .rc-card-icon-wrapper::before {
+    width: 140px;
+    height: 140px;
+}
+
+.rc-card:hover .rc-card-icon-wrapper {
+    transform: scale(1.12) rotate(8deg);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+}
+
+.rc-card-icon {
+    font-size: 1.15rem;
+}
+
+/* ============================================================
+   CARD TEXT
+   ============================================================ */
+.rc-card-title {
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: transform 0.25s ease;
+    line-height: 1.3;
+}
+
+.rc-card:hover .rc-card-title {
+    transform: translateX(3px);
+}
+
+.rc-card-description {
+    margin: 0;
+    font-size: 0.78rem;
+    color: #6b7280;
+    line-height: 1.45;
+    transition: color 0.25s ease;
+}
+
+.rc-card:hover .rc-card-description {
+    color: #4b5563;
+}
+
+/* ============================================================
+   PAGE TYPOGRAPHY
+   ============================================================ */
+.rc-page-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.4rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    animation: rc-title-slide 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes rc-title-slide {
+    from {
+        opacity: 0;
+        transform: translateX(-16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.rc-page-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0 0 1.1rem;
+    line-height: 1.55;
+    animation: rc-subtitle-fade 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.15s
+        backwards;
+}
+
+@keyframes rc-subtitle-fade {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+.rc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 640px;
+}
+
+.rc-field-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.rc-field-label svg {
+    vertical-align: middle;
+    margin-right: 0.3rem;
+}
+
+.rc-input,
+.rc-textarea,
+.rc-select {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border-radius: 0.8rem;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    font: inherit;
+    font-size: 1rem; /* 16px prevents iOS zoom */
+    background-color: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(8px);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    color: #111827;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.rc-input:focus,
+.rc-textarea:focus,
+.rc-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow:
+        0 0 0 3px rgba(102, 126, 234, 0.12),
+        0 2px 10px rgba(102, 126, 234, 0.15);
+    transform: translateY(-1px);
+}
+
+.rc-input:hover,
+.rc-textarea:hover,
+.rc-select:hover {
+    border-color: rgba(102, 126, 234, 0.38);
+}
+
+.rc-textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.rc-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.1rem;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+/* ============================================================
+   PILL TOGGLE
+   ============================================================ */
+.rc-pill-toggle {
+    display: inline-flex;
+    padding: 0.15rem;
+    border-radius: 999px;
+    background: #e5e7eb;
+    gap: 0.1rem;
+}
+
+.rc-pill-toggle button {
+    border-radius: 999px;
+    border: none;
+    padding: 0.4rem 1rem;
+    background: transparent;
+    font-size: 0.85rem;
+    cursor: pointer;
+    min-height: 36px;
+    transition: all 0.2s ease;
+}
+
+.rc-pill-toggle button.rc-pill-toggle-active {
+    background: linear-gradient(90deg, #2563eb, #60a5fa);
+    color: #f9fafb;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* ============================================================
+   FILE PILL
+   ============================================================ */
+.rc-file-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    border: 1px dashed #9ca3af;
+    font-size: 0.8rem;
+    color: #4b5563;
+}
+
+/* ============================================================
+   PRIMARY BUTTON
+   ============================================================ */
+.rc-primary-button {
+    align-self: flex-start;
+    margin-top: 0.3rem;
+    border-radius: 999px;
+    border: none;
+    padding: 0.7rem 1.75rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rc-primary-button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    transform: translate(-50%, -50%);
+    transition:
+        width 0.55s,
+        height 0.55s;
+}
+
+.rc-primary-button:hover::before {
+    width: 350px;
+    height: 350px;
+}
+
+.rc-primary-button:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 28px rgba(102, 126, 234, 0.45);
+}
+
+.rc-primary-button:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+/* ============================================================
+   HINT / MESSAGES
+   ============================================================ */
+.rc-hint {
+    font-size: 0.78rem;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.rc-success-message {
+    animation: rc-slide-down 0.28s ease-out;
+}
+
+.rc-error-message {
+    animation: rc-slide-down 0.28s ease-out;
+}
+
+@keyframes rc-slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================
+   SPINNER
+   ============================================================ */
+.rc-spinner {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: rc-spin 0.65s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes rc-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   ============================================================ */
+@keyframes rc-fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.99);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes rc-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes rc-bounce-in {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    55% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes rc-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes rc-pulse {
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow:
+            0 16px 48px rgba(0, 0, 0, 0.3),
+            inset 0 0 32px rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow:
+            0 22px 64px rgba(0, 0, 0, 0.4),
+            inset 0 0 48px rgba(255, 255, 255, 0.15);
+    }
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================================
+   SPLASH SCREEN
+   ============================================================ */
+.rc-splash-container {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-size: 200% 200%;
+    animation:
+        gradient-shift 8s ease infinite,
+        rc-fade-in 0.5s ease-out;
+    border-radius: 1.5rem;
+    box-shadow: 0 16px 48px rgba(102, 126, 234, 0.35);
+    color: #fff;
+    text-align: center;
+    padding: 2rem 1.25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.rc-splash-container::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 70%
+    );
+    animation: rotate 22s linear infinite;
+}
+
+.rc-splash-logo {
+    margin-bottom: 1.5rem;
+    animation: rc-bounce-in 0.75s ease-out;
+}
+
+.rc-splash-icon {
+    width: 160px;
+    height: 160px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(16px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    box-shadow:
+        0 16px 48px rgba(0, 0, 0, 0.3),
+        inset 0 0 32px rgba(255, 255, 255, 0.1);
+    animation: rc-pulse 2.2s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+.rc-splash-title {
+    font-size: 1.65rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    animation: rc-slide-up 0.6s ease-out 0.2s both;
+    padding: 0 0.5rem;
+}
+
+.rc-splash-subtitle {
+    opacity: 0.9;
+    max-width: 320px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    animation: rc-slide-up 0.6s ease-out 0.3s both;
+    padding: 0 0.5rem;
+}
+
+.rc-splash-loader {
+    margin-top: 2rem;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-top-color: #fff;
+    animation: rc-spin 0.85s linear infinite;
+}
+
+/* ============================================================
+   AUTH CARDS
+   ============================================================ */
+.rc-auth-card {
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1.75rem;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 16px 48px rgba(102, 126, 234, 0.25);
+    color: #111827;
+    animation: rc-card-enter 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.rc-auth-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 38%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    z-index: 0;
+}
+
+.rc-auth-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.rc-auth-header {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 0.875rem;
+    padding: 0.7rem 1rem;
+    color: #fff;
+    margin-bottom: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rc-signup-card {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1.75rem;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 16px 48px rgba(102, 126, 234, 0.25);
+    color: #111827;
+    animation: rc-card-enter 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.rc-signup-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 33%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    z-index: 0;
+}
+
+.rc-signup-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================================
+   RESPONSIVE — SMALL PHONES  (≤ 400px)
+   ============================================================ */
+@media (max-width: 400px) {
+    .rc-content {
+        padding: 0.65rem 0.6rem calc(64px + 0.65rem);
+    }
+
+    .rc-topbar {
+        padding: 0.5rem 0.6rem;
+    }
+
+    .rc-app-name {
+        font-size: 0.72rem;
+    }
+
+    .rc-app-subtitle {
+        display: none;
+    }
+
+    .rc-icon-button {
+        padding: 0.35rem 0.5rem;
+        min-width: 32px;
+        min-height: 32px;
+        font-size: 0.9rem;
+    }
+
+    .rc-page-title {
+        font-size: 1.25rem;
+    }
+
+    .rc-page-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .rc-card-grid {
+        gap: 0.6rem;
+    }
+
+    .rc-card {
+        padding: 0.8rem 0.7rem;
+        border-radius: 0.875rem;
+    }
+
+    .rc-card-icon-wrapper {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        margin-bottom: 0.5rem;
+    }
+
+    .rc-card-icon {
+        font-size: 1rem;
+    }
+
+    .rc-card-title {
+        font-size: 0.8rem;
+    }
+
+    .rc-card-description {
+        font-size: 0.72rem;
+    }
+
+    .rc-splash-icon {
+        width: 130px;
+        height: 130px;
+        font-size: 3.2rem;
+    }
+
+    .rc-splash-title {
+        font-size: 1.35rem;
+    }
+
+    .rc-auth-card,
+    .rc-signup-card {
+        border-radius: 1.25rem;
+        padding: 1.5rem 1rem;
+    }
+
+    .rc-bottom-nav-label {
+        font-size: 0.55rem;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE — PHONES  (401px – 640px)
+   ============================================================ */
+@media (min-width: 401px) and (max-width: 640px) {
+    .rc-content {
+        padding: 1rem 0.875rem calc(64px + 1rem);
+    }
+
+    .rc-card {
+        padding: 0.9rem 0.85rem;
+    }
+
+    .rc-card-icon-wrapper {
+        width: 42px;
+        height: 42px;
+    }
+
+    .rc-auth-card,
+    .rc-signup-card {
+        border-radius: 1.5rem;
+        padding: 1.75rem 1.25rem;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE — TABLETS  (641px – 899px)
+   ============================================================ */
+@media (min-width: 641px) and (max-width: 899px) {
+    .rc-content {
+        padding: 1.25rem 1.25rem calc(64px + 1rem);
+    }
+
+    .rc-card-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .rc-card {
+        padding: 1.1rem 1rem;
+    }
+
+    .rc-card-icon-wrapper {
+        width: 48px;
+        height: 48px;
+    }
+
+    .rc-card-title {
+        font-size: 0.95rem;
+    }
+
+    .rc-page-title {
+        font-size: 1.75rem;
+    }
+
+    .rc-topbar {
+        padding: 0.65rem 1.1rem;
+    }
+
+    .rc-app-name {
+        font-size: 0.82rem;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE — DESKTOP  (≥ 900px)
+   ============================================================ */
+@media (min-width: 900px) {
+    /* Sidebar always visible — push content */
+    .rc-sidebar {
+        position: static;
+        transform: none !important;
+        width: 260px;
+        flex-shrink: 0;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: none;
+        overflow-y: auto;
+    }
+
+    /* No overlay needed on desktop */
+    .rc-shell {
+        padding-left: 0;
+    }
+
+    /* Hide mobile bottom nav on desktop */
+    .rc-bottom-nav {
+        display: none;
+    }
+
+    /* Show footer on desktop */
+    .rc-footer {
+        display: block;
+    }
+
+    /* More generous content padding */
+    .rc-content {
+        padding: 1.75rem 2rem 1.5rem;
+    }
+
+    .rc-card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .rc-card {
+        padding: 1.25rem 1.4rem;
+    }
+
+    .rc-card-icon-wrapper {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+    }
+
+    .rc-card-title {
+        font-size: 1rem;
+    }
+
+    .rc-card-description {
+        font-size: 0.85rem;
+    }
+
+    .rc-page-title {
+        font-size: 2rem;
+    }
+
+    .rc-page-subtitle {
+        font-size: 1rem;
+    }
+
+    .rc-topbar {
+        padding: 0.75rem 1.5rem;
+    }
+
+    .rc-app-name {
+        font-size: 0.88rem;
+    }
+
+    .rc-app-subtitle {
+        font-size: 0.72rem;
+    }
+
+    .rc-auth-card {
+        padding: 2.5rem 2rem;
+    }
+
+    .rc-signup-card {
+        padding: 2.5rem 2rem;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE — LARGE DESKTOP  (≥ 1280px)
+   ============================================================ */
+@media (min-width: 1280px) {
+    .rc-card-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+    }
+
+    .rc-page-title {
+        font-size: 2.25rem;
+    }
+}
+
+/* ============================================================
+   LANDSCAPE PHONE ADJUSTMENTS
+   ============================================================ */
+@media (max-height: 500px) and (orientation: landscape) {
+    .rc-splash-icon {
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+    }
+
+    .rc-splash-title {
+        font-size: 1.2rem;
+    }
+
+    .rc-splash-subtitle {
+        font-size: 0.82rem;
+    }
+
+    .rc-bottom-nav {
+        height: 50px;
+    }
+
+    .rc-content {
+        padding-bottom: calc(50px + 0.75rem);
+    }
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ============================================================
+   UTILITY
+   ============================================================ */
+.rc-back-btn {
+    flex-shrink: 0;
+}
